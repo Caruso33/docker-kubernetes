@@ -40,7 +40,8 @@ docker stop {id} # with SIGTERM
 docker kill {id} # no SIGTERM
 
 docker exec -it {id} {cmd} # it flag lets provide input to container
-
+# starts second process attached to container, e.g.
+docker exec -it caruso33/simpleweb sh # to start shell
 
 ## Commands
 docker build . # make image out of Dockerfile
@@ -55,5 +56,7 @@ docker run caruso33/redis(:latest) # latest default
 docker run -it alpine sh; # make your own image
 docker commit -c 'CMD ["redis-server"]' {id} # id of previous output
 
+
+docker run -p 5000:8080 {id} # expose port to outside 5000
 
 
