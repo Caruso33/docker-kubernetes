@@ -1,0 +1,43 @@
+## First start
+
+git clone https://github.com/docker/doodle.git
+cd doodle/cheers2019 && docker build -t caruso33/cheers2019 .
+docker run -it --rm caruso33/cheers2019           
+docker login && docker push caruso33/cheers2019 
+
+
+## Commands
+### Testing run command
+docker run -it hello-world   
+
+#### Uses startup command 'bash'
+docker run -it ubuntu bash
+
+#### terminates immediately after command has finished
+docker run busybox echo lululu
+
+#### runs until it is terminated
+docker run busybox    
+
+docker ps (-all) # busybox inspectable, see container ids
+
+
+
+## Theory
+docker run = docker create + docker start
+setting up snapshot + starting that snapshot
+
+docker create hello-world # prints container id
+docker start -a {container id} # a flag will output in terminal
+
+docker run (default outputs to terminal)
+docker start (default NOT outputting to terminal)
+
+docker system prune # delete all cache and stopped containers
+docker logs {container id} # inspect container
+
+docker stop {id} # with SIGTERM
+docker kill {id} # no SIGTERM
+
+docker exec -it {id} {cmd} # it flag lets provide input to container
+
