@@ -41,3 +41,19 @@ docker kill {id} # no SIGTERM
 
 docker exec -it {id} {cmd} # it flag lets provide input to container
 
+
+## Commands
+docker build . # make image out of Dockerfile
+		# . is build context
+
+docker build -t caruso33/redis:latest . # give name and version tag
+docker run caruso33/redis(:latest) # latest default
+
+
+
+## Theory
+docker run -it alpine sh; # make your own image
+docker commit -c 'CMD ["redis-server"]' {id} # id of previous output
+
+
+
