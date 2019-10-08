@@ -1,0 +1,43 @@
+original setup (on-premise / on your location):
+
+server </> dev environment 
+=> difficulties with inconsistent dependencies
+=> share / manage resources?
+
+then virtualization:
+vagrant manages VMs e.g. vagrant local file: 
+    use ubuntu-18.04.iso
+    data ./ /vagrant_data
+    env ...
+vagrant up
+vagrant ssh
+=> resource consumption
+=> heavy sizes
+=> bloated OS or OS configure yourself
+
+then containerization architecture:
+Dockerfile defines bare metal images
+    core: 'ubuntu'
+    install ruby
+    install wget
+    install nginx
+
+Use Dockerfile to create a container which only contains 
+what you need
+
+=> dev and prod envs are the same
+=> need to define all networking port exposure yourself
+
+containerization with docker-compose:
+for easy configuration e.g. networking
+=> easier setup
+=> cannot setup replicas / cpus / on-failure behavior / scalability
+    / resources
+
+
+containerization with kubernetes:
+
+
+
+questions: 
+nginx on node server
