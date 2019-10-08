@@ -7,6 +7,22 @@ before_install:
   - docker build -f Dockerfile.dev -t docker-kubernetes .
 
 script:
-  - docker run docker-kubernetes npm run test -- --coverage
-  # coverage workaround because otherwise the test never quits
+  - docker run -e CI=true docker-kubernetes npm run test
+  # needs environment of CI otherwise it never quits
   # as it waits for user input
+
+deploy:
+  # predefined providers
+  provider: elasticbeanstalk 
+  region: "us-east-1"
+  app: "docker"
+  env: "Docker-env"
+  # s3 bucket which holds our files
+  bucket_name: "elasticbeanstalk-us-east-1-034939484023"
+  # same as app name
+  bucket_path: "docker"
+  on:
+    branch: master
+  access_key_id: $AWS_BEANSTALK_ACCESS_KEY
+  secret_access_key: 
+      secure: "$AWS_BEANSTALK_SECRET_KEY"
