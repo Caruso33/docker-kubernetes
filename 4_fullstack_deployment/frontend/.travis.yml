@@ -1,0 +1,12 @@
+sudo: required
+
+services:
+  - docker
+
+before_install:
+  - docker build -f Dockerfile.dev -t docker-kubernetes .
+
+script:
+  - docker run docker-kubernetes npm run test -- --coverage
+  # coverage workaround because otherwise the test never quits
+  # as it waits for user input

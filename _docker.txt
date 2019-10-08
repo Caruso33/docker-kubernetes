@@ -43,16 +43,18 @@ docker exec -it {id} {cmd} # it flag lets provide input to container
 # starts second process attached to container, e.g.
 docker exec -it caruso33/simpleweb sh # to start shell
 
-## Commands
+## 
 docker build . # make image out of Dockerfile
-		# . is build context
+               # . is build context
 
 docker build -t caruso33/redis:latest . # give name and version tag
 docker run caruso33/redis(:latest) # latest default
 
+docker build -f Dockerfile.dev # specific file
 
 
-## Theory
+## 
+
 docker run -it alpine sh; # make your own image
 docker commit -c 'CMD ["redis-server"]' {id} # id of previous output
 
@@ -60,3 +62,13 @@ docker commit -c 'CMD ["redis-server"]' {id} # id of previous output
 docker run -p 5000:8080 {id} # expose port to outside 5000
 
 
+##
+
+docker run -p 3000:3000 -v /app/node_modules -v $(pwd):/app {id}
+# take folder in $pwd as reference, : is for mapping outside and inside container
+# however, take the node_modules inside the container
+# which is deleted in the src folder
+
+
+docker attach {id} # attach current tty to docker instance stdin stdout stderr
+docker exec -it {id} npm run test # for testing the create-react-app with terminal access
