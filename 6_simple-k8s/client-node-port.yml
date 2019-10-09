@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: client-node-port
+spec:
+  type: NodePort
+  # service > type
+  ports:
+      # port > other's port way to target client-pod
+    - port: 3050
+      # incoming port for client-pod, check client-pod.yml
+      targetPort: 3000
+      # outgoing port, not used in production
+      # as it would lead to funky domain address ports
+      nodePort: 31515
+  selector:
+    # linked label from client-pod
+    component: web
