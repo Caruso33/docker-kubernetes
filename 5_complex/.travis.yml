@@ -1,0 +1,24 @@
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t caruso33/react-test -f ./client/Dockerfile.dev ./client
+
+# anything in scripts exits !== 0 means it failed
+script:
+  - docker run -e CI=true caruso33/react-test npm test
+
+after_success:
+  - docker build -t caruso33/multi-client ./client
+  - docker build -t caruso33/multi-nginx ./nginx
+  - docker build -t caruso33/multi-server ./server
+  - docker build -t caruso33/multi-worker ./worker
+
+  # set env_vars on travisci
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+
+  - docker push caruso33/multi-client
+  - docker push caruso33/multi-nginx
+  - docker push caruso33/multi-server
+  - docker push caruso33/multi-worker
