@@ -2,12 +2,14 @@ minikube start # start VM with kubernetes cluster
 minikube status # check status and ips
 minikube ip # get ip of server 
 
+minikube dashboard # ! very good for seeing what's going on
+
 # once up
 kubectl cluster-info # info for cluster
 
 kubectl apply -f {file} # change configuration of cluster
 
-kubectl get {type} # type => pods, services, deployments
+kubectl get {type} # type => pods, services, deployments, storageclass, pv, pvc
 
 kubectl describe {obj type} [{obj name}] # opt obj name 
                     # get details information about object
@@ -18,6 +20,8 @@ kubectl delete -f {file} # delete resource
 kubectl rollout restart # new version, not tried yet since v1.15
 kubectl set image {obj type}/{obj name} {container name}={new image to use}
 
+# creating secret object type
+kubectl create secret generic {name} --from-literal key=value # generic or docker-registry or tls
 
 eval $(minikube docker-env) # connect current tty to minikube kubernetes-server
 
@@ -34,5 +38,6 @@ deployment > runs set of identical pods
            > good for dev and prod
 
 service > has different types
-    > NodePort for networking, keeps track e.g. of ips of pods
-        for easy access
+    > NodePort for networking, keeps track e.g. of ips of pods,
+        exposes to outside
+    > ClusterIP, let's connect inside cluster as NodePort, no outside
