@@ -7,7 +7,7 @@ minikube dashboard # ! very good for seeing what's going on
 # once up
 kubectl cluster-info # info for cluster
 
-kubectl apply -f {file} # change configuration of cluster
+kubectl apply -f {file / folder} # change configuration of cluster
 
 kubectl get {type} # type => pods, services, deployments, storageclass, pv, pvc
 

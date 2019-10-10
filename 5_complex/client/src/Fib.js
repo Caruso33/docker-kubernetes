@@ -28,8 +28,8 @@ export default () => {
     setIndex("");
   };
 
-  const renderSeendIndexes = () => {
-    return seenIndexes.map(({ number }) => number).join(", ");
+  const renderSeenIndexes = () => {
+    return seenIndexes.map(({ number }) => number || "").join(", ");
   };
 
   const renderSeenValues = () => {
@@ -54,7 +54,7 @@ export default () => {
       </form>
 
       <h3>Indexes I have seen:</h3>
-      {renderSeendIndexes()}
+      {renderSeenIndexes()}
 
       <h3>Calculated Values:</h3>
       {renderSeenValues()}
