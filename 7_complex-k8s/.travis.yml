@@ -1,0 +1,32 @@
+sudo: required
+services:
+  - docker
+env:
+  global:
+    - SHA=$(git rev-parse HEAD)
+    - CLOUDSDK_CORE_DISABLE_PROMPTS=1
+
+before_install:
+  # encrypt service-account.json with travis ...
+  # setup pgpassword on gcloud shell
+  # install helm (kubernetes package manager) on gcp 
+  # cert-manager for https through let's encrypt
+  
+  - curl https://sdk.cloud.google.com | bash > /dev/null;
+  - source $HOME/google-cloud-sdk/path.bash.inc
+  - gcloud components update kubectl
+  - gcloud auth activate-service-account --key-file service-account.json
+  - gloud config set project {name of project='skillfull-beagle-123125125'}
+  - glouc config set compute/zone {zone of project='us-central1-a'}
+  - gloud container clusters get-credentials {name of cluster='multi-cluster'}
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+  - docker build -t caruso33/react-test -f ./client/Dockerfile.dev ./client
+
+scripts:
+  - docker run -e CI=true caruso33/react-test npm test
+
+deploy:
+  provider: script
+  script: bash ./deploy.sh
+  on:
+    branch: master

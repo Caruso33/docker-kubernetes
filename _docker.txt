@@ -21,6 +21,8 @@ docker run busybox
 
 docker ps (-all) # busybox inspectable, see container ids
 
+docker run -it -v $(pwd):/app ruby:2.3 sh # run ruby image with shell start command
+                                          # and set up volume with current working directory
 
 
 ## Theory
