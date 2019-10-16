@@ -4,3 +4,7 @@ COPY package.json .
 RUN npm i
 COPY . .
 CMD ["npm", "start"]
+
+EXPOSE 3000 # needs docker run -p 3000:3000 anyways !
+# expose is for inter-container networking
+# -p 3000:3000 is implicitly exposing 3000, so actually no need doing it here
