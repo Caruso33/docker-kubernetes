@@ -1,0 +1,13 @@
+# setup
+
+kubectl apply -f recommended.yaml
+kubectl apply -f dashboard-adminuser.yaml
+
+# create service account user
+kubectl -n kubernetes-dashboard create token admin-user
+
+
+# cleanup
+
+kubectl -n kubernetes-dashboard delete serviceaccount admin-user
+kubectl -n kubernetes-dashboard delete clusterrolebinding admin-user
