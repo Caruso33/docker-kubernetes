@@ -25,14 +25,3 @@
 #     # path: /data/my-storage-class/
 #     path: /tmp/my-storage/
 
-# ---
-# kind: PersistentVolumeClaim
-# apiVersion: v1
-# metadata:
-#   name: storage-claim
-# spec:
-#   accessModes:
-#     - ReadWriteOnce
-#   resources:
-#     requests:
-#       storage: 256Mi

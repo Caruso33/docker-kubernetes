@@ -9,7 +9,7 @@ spec:
   ports:
     - port: 80
       name: web
-  clusterIP: None
+  clusterIP: None # headless
   selector:
     app: nginx
 
@@ -34,8 +34,6 @@ spec:
       terminationGracePeriodSeconds: 10
       containers:
         - name: nginx
-          # image: registry.k8s.io/nginx-slim:0.8
-          # image: registry.k8s.io/nginx:1.23.3-alpine
           image: nginx:1.23.3-alpine
           ports:
             - containerPort: 80
@@ -43,6 +41,11 @@ spec:
           volumeMounts:
             - name: www
               mountPath: /usr/share/nginx/html
+      volumes:
+        - name: www
+          configMap:
+            name: setup-nginx-files
+
   volumeClaimTemplates:
     - metadata:
         name: www
@@ -50,7 +53,6 @@ spec:
           volume.beta.kubernetes.io/storage-class: standard
       spec:
         accessModes: ["ReadWriteOnce"]
-        # storageClassName: "my-storage-class"
         resources:
           requests:
             storage: 256Mi
