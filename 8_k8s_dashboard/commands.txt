@@ -3,7 +3,12 @@
 kubectl apply -f recommended.yaml
 kubectl apply -f dashboard-adminuser.yaml
 
+kubectl proxy
+
+
 # create service account user
+# https://github.com/kubernetes/dashboard/blob/master/docs/user/access-control/creating-sample-user.md
+
 kubectl -n kubernetes-dashboard create token admin-user
 
 

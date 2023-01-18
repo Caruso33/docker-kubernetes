@@ -1,0 +1,17 @@
+# resources 
+
+https://artifacthub.io/packages/helm/bitnami/nginx
+
+
+# setup
+
+kubectl apply -f namespace.yaml
+
+kubectl apply -f nginx_statefulset.yaml
+
+
+# port forwarding to headless service
+
+kuc port-forward service/nginx 8080:80
+
+http http://localhost:8080
