@@ -3,18 +3,29 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: setup-nginx-files
-  namespace: my-project
 data:
-  index.html: |-
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-      <meta charset="UTF-8" />
-      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <title>Hello K8s</title>
-    </head>
-    <body>
-      <h1>Hello K8s!</h1>
-    </body>
-    </html>
+  # index.html: |-
+  #   <!DOCTYPE html>
+  #   <html lang="en">
+  #   <head>
+  #     <meta charset="UTF-8" />
+  #     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  #     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  #     <title>Hello K8s</title>
+  #   </head>
+  #   <body>
+  #     <h1>Hello K8s!</h1>
+  #   </body>
+  #   </html>
+
+  nginx_init.sh: |-
+    #!/bin/bash
+
+    echo "Copying files to nginx mount volume"
+
+    echo "hello world" > index.html
+
+    cp ./index.html /usr/share/nginx/html
+    # cp -r ./src/* /usr/share/nginx/html
+
+    echo "Files copied!"

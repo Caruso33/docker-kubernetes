@@ -4,7 +4,6 @@ metadata:
   name: nginx
   labels:
     app: nginx
-  namespace: my-project
 spec:
   ports:
     - port: 80
@@ -18,13 +17,12 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: web
-  namespace: my-project
 spec:
   selector:
     matchLabels:
       app: nginx # has to match .spec.template.metadata.labels
   serviceName: "nginx"
-  replicas: 3 # by default is 1
+  replicas: 2 # by default is 1
   minReadySeconds: 10 # by default is 0
   template:
     metadata:
@@ -41,14 +39,60 @@ spec:
           volumeMounts:
             - name: www
               mountPath: /usr/share/nginx/html
+
       volumes:
-        - name: www
+        - name: setup
           configMap:
             name: setup-nginx-files
+            defaultMode: 0700
+        # - name: tobias-test
+        #   persistentVolumeClaim:
+        #     claimName: tobias-test
+
+      initContainers:
+        - name: init-container-1
+          image: busybox
+          command:
+            [
+              "sh",
+              "-c",
+              "echo Inside init-container-1 start; sleep 2;echo init-container-1 completed;",
+            ]
+
+        - name: init
+          # image: busybox:latest
+          image: bash:latest
+          imagePullPolicy: "IfNotPresent"
+          command: ["bash", "-c"]
+
+          # args: ["echo $(ls -l /tmp); echo $(whoami); cd tmp && ./nginx_init.sh"]
+          args:
+            - |
+              echo /tmp content $(ls -l /tmp);
+              echo bash $(which bash)
+              cd /tmp && cat ./nginx_init.sh;
+              cd /tmp && bash ./nginx_init.sh;
+              echo /usr/share/nginx $(ls -l /usr/share/nginx);
+              echo /usr/share/nginx/html $(ls -l /usr/share/nginx/html);
+
+          #   - /tmp/nginx_init.sh
+          # - "/bin/ls"
+          # - "echo 'Haaaaaaaallooooooo'"
+          # - "/bin/bash /tmp/nginx_init.sh"
+          volumeMounts:
+            - name: www
+              mountPath: /usr/share/nginx/html
+            - name: setup
+              # mountPath: /tmp
+              mountPath: /tmp/nginx_init.sh
+              subPath: nginx_init.sh
+              readOnly: true
 
   volumeClaimTemplates:
     - metadata:
         name: www
+        # annotations:
+        #   volume.beta.kubernetes.io/storage-class: hcloud-volumes
         annotations:
           volume.beta.kubernetes.io/storage-class: standard
       spec:
