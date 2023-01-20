@@ -50,13 +50,13 @@ spec:
         #     claimName: tobias-test
 
       initContainers:
-        - name: init-container-1
+        - name: init-2
           image: busybox
           command:
             [
               "sh",
               "-c",
-              "echo Inside init-container-1 start; sleep 2;echo init-container-1 completed;",
+              "echo [init-2] Inside init-2 start; sleep 2;echo [init-2] init-2 completed;",
             ]
 
         - name: init
@@ -68,24 +68,18 @@ spec:
           # args: ["echo $(ls -l /tmp); echo $(whoami); cd tmp && ./nginx_init.sh"]
           args:
             - |
-              echo /tmp content $(ls -l /tmp);
-              echo bash $(which bash)
-              cd /tmp && cat ./nginx_init.sh;
+              echo [init] /tmp content $(ls -l /tmp);
+              echo [init] bash $(which bash)
               cd /tmp && bash ./nginx_init.sh;
-              echo /usr/share/nginx $(ls -l /usr/share/nginx);
-              echo /usr/share/nginx/html $(ls -l /usr/share/nginx/html);
+              echo [init] /usr/share/nginx/html $(ls -l /usr/share/nginx/html);
 
-          #   - /tmp/nginx_init.sh
-          # - "/bin/ls"
-          # - "echo 'Haaaaaaaallooooooo'"
-          # - "/bin/bash /tmp/nginx_init.sh"
           volumeMounts:
             - name: www
               mountPath: /usr/share/nginx/html
             - name: setup
-              # mountPath: /tmp
-              mountPath: /tmp/nginx_init.sh
-              subPath: nginx_init.sh
+              mountPath: /tmp
+              # mountPath: /tmp/nginx_init.sh
+              # subPath: nginx_init.sh
               readOnly: true
 
   volumeClaimTemplates:
