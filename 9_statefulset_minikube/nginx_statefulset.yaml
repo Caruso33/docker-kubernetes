@@ -82,10 +82,13 @@ spec:
   volumeClaimTemplates:
     - metadata:
         name: www
-        # annotations:
-        #   volume.beta.kubernetes.io/storage-class: hcloud-volumes
+        # remote
         annotations:
-          volume.beta.kubernetes.io/storage-class: standard
+          volume.beta.kubernetes.io/storage-class: hcloud-volumes
+
+        # local
+        # annotations:
+        #   volume.beta.kubernetes.io/storage-class: standard
       spec:
         accessModes: ["ReadWriteOnce"]
         resources:
