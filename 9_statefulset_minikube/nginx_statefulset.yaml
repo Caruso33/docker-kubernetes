@@ -44,10 +44,7 @@ spec:
         - name: setup
           configMap:
             name: setup-nginx-files
-            defaultMode: 0700
-        # - name: tobias-test
-        #   persistentVolumeClaim:
-        #     claimName: tobias-test
+            defaultMode: 0777
 
       initContainers:
         - name: init-2

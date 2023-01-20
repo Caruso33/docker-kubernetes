@@ -23,13 +23,11 @@ data:
 
     echo [nginx_init] "Copying files to nginx mount volume";
 
+    echo [nginx_init] pwd $(pwd);
+    echo [nginx_init] ls $(ls -l);
+
     # echo [nginx_init] "hello world" > index.html;
-
-    echo [nginx_init] pwd $(pwd)
-    echo [nginx_init] ls $(ls -l)
-
+  
     cp ./index.html /usr/share/nginx/html;
-        
-    # cp -r ./src/* /usr/share/nginx/html;
 
     echo [nginx_init] "Files copied!";
